@@ -1002,25 +1002,27 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
         while (recycledPages.count > 2) {
             recycledPages.removeFirst()
         }
-        
-        for index in firstIndex...lastIndex {
-            if isDisplayingPageForIndex(index) {
-                continue
-            }
-            
-            let page = SKZoomingScrollView(frame: view.frame, browser: self)
-            page.frame = frameForPageAtIndex(index)
-            page.tag = index + pageIndexTagOffset
-            page.photo = photoAtIndex(index)
-            
-            visiblePages.append(page)
-            pagingScrollView.addSubview(page)
-            // if exists caption, insert
-            if let captionView = captionViewForPhotoAtIndex(index) {
-                captionView.frame = frameForCaptionView(captionView, index: index)
-                pagingScrollView.addSubview(captionView)
-                // ref val for control
-                page.captionView = captionView
+
+        if firstIndex >= 0 {
+            for index in firstIndex...lastIndex {
+                if isDisplayingPageForIndex(index) {
+                    continue
+                }
+                
+                let page = SKZoomingScrollView(frame: view.frame, browser: self)
+                page.frame = frameForPageAtIndex(index)
+                page.tag = index + pageIndexTagOffset
+                page.photo = photoAtIndex(index)
+                
+                visiblePages.append(page)
+                pagingScrollView.addSubview(page)
+                // if exists caption, insert
+                if let captionView = captionViewForPhotoAtIndex(index) {
+                    captionView.frame = frameForCaptionView(captionView, index: index)
+                    pagingScrollView.addSubview(captionView)
+                    // ref val for control
+                    page.captionView = captionView
+                }
             }
         }
     }
